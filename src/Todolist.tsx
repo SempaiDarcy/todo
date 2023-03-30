@@ -42,9 +42,9 @@ export const Todolist = memo((props: PropsType) => {
         props.changeTodolistTitle(props.id, title);
     }
 
-    const onAllClickHandler = useCallback(() => props.changeFilter("all", props.id),[props.changeFilter])
-    const onActiveClickHandler = useCallback(() => props.changeFilter("active", props.id),[props.changeFilter])
-    const onCompletedClickHandler = useCallback(() => props.changeFilter("completed", props.id),[props.changeFilter])
+    const onAllClickHandler = useCallback(() => props.changeFilter("all", props.id), [props.changeFilter])
+    const onActiveClickHandler = useCallback(() => props.changeFilter("active", props.id), [props.changeFilter])
+    const onCompletedClickHandler = useCallback(() => props.changeFilter("completed", props.id), [props.changeFilter])
 
     let tasks = props.tasks;
 
@@ -54,7 +54,7 @@ export const Todolist = memo((props: PropsType) => {
     if (props.filter === "completed") {
         tasks = tasks.filter(t => t.isDone === true);
     }
-    const removeTask = useCallback((taskId: string) => props.removeTask(taskId, props.id), [props.removeTask,props.id])
+    const removeTask = useCallback((taskId: string) => props.removeTask(taskId, props.id), [props.removeTask, props.id])
 
     const changeTaskStatus = useCallback((taskId: string, status: boolean) => {
         props.changeTaskStatus(taskId, status, props.id);
@@ -78,21 +78,35 @@ export const Todolist = memo((props: PropsType) => {
             }
         </div>
         <div>
-            <Button variant={props.filter === 'all' ? 'outlined' : 'text'}
-                    onClick={onAllClickHandler}
-                    color={'inherit'}
-            >All
-            </Button>
-            <Button variant={props.filter === 'active' ? 'outlined' : 'text'}
-                    onClick={onActiveClickHandler}
-                    color={'primary'}>Active
-            </Button>
-            <Button variant={props.filter === 'completed' ? 'outlined' : 'text'}
-                    onClick={onCompletedClickHandler}
-                    color={'secondary'}>Completed
-            </Button>
+            <ButtonMemo variant={props.filter === 'all' ? 'outlined' : 'text'}
+                        onClick={onAllClickHandler}
+                        color={'inherit'}
+                        title={'all'}/>
+            <ButtonMemo variant={props.filter === 'active' ? 'outlined' : 'text'}
+                        onClick={onActiveClickHandler}
+                        color={'primary'}
+                        title={'Active'}/>
+            <ButtonMemo variant={props.filter === 'completed' ? 'outlined' : 'text'}
+                        onClick={onCompletedClickHandler}
+                        color={'secondary'}
+                        title={'Completed'}/>
         </div>
     </div>
+})
+type ButtonMemoPropsType = {
+    title: string,
+    color: 'inherit' | 'primary' | 'secondary' | 'success' | 'error' | 'info' | 'warning',
+    variant: 'text' | 'outlined' | 'contained'
+    onClick: () => void
+}
+const ButtonMemo = memo((props: ButtonMemoPropsType) => {
+    return (
+        <Button variant={props.variant}
+                onClick={props.onClick}
+                color={props.color}
+        >{props.title}
+        </Button>
+    )
 })
 
 
