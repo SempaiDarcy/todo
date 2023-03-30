@@ -1,4 +1,4 @@
-import React, {ChangeEvent, memo, useCallback} from 'react';
+import React, {ChangeEvent, memo, useCallback, useMemo} from 'react';
 import {FilterValuesType} from './App';
 import {AddItemForm} from './AddItemForm';
 import {EditableSpan} from './EditableSpan';
@@ -48,12 +48,16 @@ export const Todolist = memo((props: PropsType) => {
 
     let tasks = props.tasks;
 
-    if (props.filter === "active") {
-        tasks = tasks.filter(t => t.isDone === false);
-    }
-    if (props.filter === "completed") {
-        tasks = tasks.filter(t => t.isDone === true);
-    }
+    tasks = useMemo(()=>{
+        if (props.filter === "active") {
+            tasks = tasks.filter(t => t.isDone === false);
+        }
+        if (props.filter === "completed") {
+            tasks = tasks.filter(t => t.isDone === true);
+        }
+        return tasks
+    },[props.filter,tasks])
+
     const removeTask = useCallback((taskId: string) => props.removeTask(taskId, props.id), [props.removeTask, props.id])
 
     const changeTaskStatus = useCallback((taskId: string, status: boolean) => {
