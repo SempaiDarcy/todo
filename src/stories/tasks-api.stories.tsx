@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react'
-import {tasksAPI} from "../api/tasks-api";
+import {todolistsAPI} from "../api/todolists-api";
 
 export default {
     title: 'tasks API'
@@ -8,8 +8,8 @@ export default {
 export const GetTasks = () => {
     const [state, setState] = useState<any>(null)
     useEffect(() => {
-        const todoId = "dae2593b-f63f-461b-8f57-d716868d39e3"
-        tasksAPI.getTasks(todoId).then(
+        const todoId = "7004b758-84ce-4cbd-b7ce-205f23dbb583"
+        todolistsAPI.getTasks(todoId).then(
             (res)=>{
                 setState(res.data)
             }
@@ -43,7 +43,7 @@ export const CreateTasks = () => {
     useEffect(()=>{
         const todoId = "dae2593b-f63f-461b-8f57-d716868d39e3"
         const title = 'task1'
-        tasksAPI.postTasks(todoId,title).then(
+        todolistsAPI.createTask(todoId,title).then(
             (res)=>{
                 setState(res.data)
             }
@@ -56,7 +56,7 @@ export const DeleteTasks = () => {
     useEffect(() => {
         const todoId = "dae2593b-f63f-461b-8f57-d716868d39e3"
         const taskId= "000661eb-6ab8-4104-8040-cc51b1f3fcad"
-        tasksAPI.deleteTasks(todoId,taskId).then(
+        todolistsAPI.deleteTask(todoId,taskId).then(
             (res)=>{
                 setState(res.data)
             }
@@ -70,8 +70,15 @@ export const UpdateTasksTitle = () => {
     useEffect(() => {
         const todoId = "dae2593b-f63f-461b-8f57-d716868d39e3"
         const taskId= "19c4d8bb-afaf-4722-b49a-63864b0eefb5"
-        const title = 'task2'
-        tasksAPI.updateTasks(todoId,taskId,title).then(
+        const model = {
+            title: 'Привет',
+            description: 'true',
+            status: 0,
+            priority: 2,
+            startDate: 'какой-то день',
+            deadline: 'другой день'
+        }
+        todolistsAPI.updateTask(todoId,taskId,model).then(
             (res)=>{
                 setState(res.data)
             }
