@@ -26,7 +26,7 @@ import {
     deleteTaskTC,
 
 } from './state/tasks-reducer';
-import { useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {AppRootStateType, useAppDispatch} from './state/store';
 import {TaskStatuses, TaskType,} from './api/todolists-api'
 
